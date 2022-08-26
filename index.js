@@ -1,5 +1,6 @@
 const express = require("express")
 const mongoose = require("mongoose")
+const bodyParser = require("body-parser");
 const fs = require("fs")
 const app = express();
 
@@ -15,6 +16,8 @@ mongoose.connect(`mongodb://uu4u3l4dltg3snxuhl1j:ymNww20Vkp9bSBajQyLq@n1-c2-mong
 })
 
 app.listen(PORT, () => console.log(`Server is online with port: ${PORT}`))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 fs.readdir(`./files`, (err, folder) => {
     folder.filter(function(file) {

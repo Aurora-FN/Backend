@@ -1,7 +1,10 @@
 const crypto = require("crypto")
+const bcrypt = require("bcrypt")
 
 const express = require("express")
 const app = express.Router();
+
+const user = require("../modules/user")
 
 app.get("/account/api/public/account/:accountId", (req, res) => {
     res.json({
@@ -53,7 +56,19 @@ app.post("/account/api/oauth/token", async (req, res, next) => {
 
     if (grantType == "password") {
         try {
-            // find account stuff blah 
+                //console.log(req.body.password)
+                var UsernameCheck = await user.findOne({ email: new RegExp(`^${req.body.username}$`, 'i') }).lean();
+        
+                if(bcrypt.compareSync(req.body.password, UsernameCheck.password)){
+                    displayName = UsernameCheck.displayName
+                    accountId = UsernameCheck.id
+                }else{
+                    return res.status(400).json(
+                        "errors.com.epicgames.common.oauth.invalid_client", 1011,
+                        "It appears that your Authorization header may be invalid or not present, please verify that you are sending the correct headers.",
+                        "com.epicgames.account.public", "prod", []
+                    )
+                }
         } catch (err) {
             console.log("OAUTH ERROR: " + err);
             return res.status(400).json({
@@ -85,6 +100,9 @@ app.post("/account/api/oauth/token", async (req, res, next) => {
         in_app_id: accountId,
         device_id: "5dcab5dbe86a7344b061ba57cdb33c4f"
     });
+})
+app.all("/account/api/oauth/exchange", (req,res) => {
+    res.json({})
 })
 app.get('/account/*', function(req, res){
     res.status(404).json({

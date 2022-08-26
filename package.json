@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Aurora-FN/Backend#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "express": "^4.18.1",
     "mongoose": "^6.5.3"
   }
