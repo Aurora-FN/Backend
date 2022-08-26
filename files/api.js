@@ -16,4 +16,7 @@ app.put("/fortnite/api/cloudstorage/user/:accountId/:filename", (req, res) => {
 app.get("/fortnite/api/storefront/v2/keychain", (req, res) => {
     res.json(JSON.parse(fs.readFileSync(`./json/keychain.json`, 'utf8'))).status(200);
 })
+app.all('/fortnite/api/game/v2/tryPlayOnPlatform/account/*', (req, res) => {
+    res.setHeader('Content-Type', 'text/plain').send(true).end();
+})
 module.exports = app
