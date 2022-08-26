@@ -19,4 +19,30 @@ app.get("/fortnite/api/storefront/v2/keychain", (req, res) => {
 app.all('/fortnite/api/game/v2/tryPlayOnPlatform/account/*', (req, res) => {
     res.setHeader('Content-Type', 'text/plain').send(true).end();
 })
+app.get("/fortnite/api/game/v2/enabled_features", (req, res) => {
+    res.json([])
+})
+app.get("/fortnite/api/v2/versioncheck/*", (req, res) => {
+    res.json({
+        "type": "NO_UPDATE"
+    })
+})
+app.post("/fortnite/api/game/v2/grant_access/*", (req, res) => {
+    res.json({}).status(204).end();
+})
+app.get("/launcher/api/public/distributionpoints/", (req, res) => {
+    res.json({
+        "distributions": [
+            "https://epicgames-download1.akamaized.net/",
+            "https://download.epicgames.com/",
+            "https://download2.epicgames.com/",
+            "https://download3.epicgames.com/",
+            "https://download4.epicgames.com/",
+            "https://fastly-download.epicgames.com/"
+        ]
+    });
+})
+app.get("/api/v1/events/Fortnite/download/*", async (req, res) => {
+    res.json({})
+})
 module.exports = app
