@@ -42,6 +42,14 @@ app.get("/launcher/api/public/distributionpoints/", (req, res) => {
         ]
     });
 })
+app.get("/account/api/epicdomains/ssodomains", (req, res) => {
+    res.json([
+        "unrealengine.com",
+        "unrealtournament.com",
+        "fortnite.com",
+        "epicgames.com"
+    ])
+})
 app.get("/api/v1/events/Fortnite/download/*", async (req, res) => {
     res.json({})
 })

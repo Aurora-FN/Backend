@@ -6,12 +6,20 @@ const app = express.Router();
 
 const user = require("../modules/user")
 
-app.get("/account/api/public/account/:accountId", (req, res) => {
+app.get("/account/api/public/account/:accountId", async (req, res) => {
+    var Account = await user.findOne({ id: new RegExp(`^${req.params.accountId}$`, 'i') }).lean();
+    if (Account == null) {
+        res.json(
+            "errors.com.epicgames.common.account.invalid_accountId", 1011,
+            "It appears that your Account ID header may be invalid or not present, please verify that you are sending the correct headers.",
+            "com.epicgames.account.public", "prod", []
+        )
+    }
     res.json({
-        "id": req.params.accountId,
-        "displayName": req.params.accountId,
-        "name": req.params.accountId,
-        "email": req.params.email,
+        "id": Account.id,
+        "displayName": Account.displayName,
+        "name": Account.displayName,
+        "email": Account.email,
         "failedLoginAttempts": 0,
         "lastLogin": new Date().toISOString(),
         "numberOfDisplayNameChanges": 0,
@@ -39,6 +47,7 @@ app.get("/account/api/public/account", async (req, res) => {
     )
 })
 app.delete("/account/api/oauth/sessions/kill/*", (req, res) => res.status(204).end())
+app.get("/api/public/account/:accountId/externalAuths", (req, res) => res.json({}))
 app.get("/account/api/oauth/verify", (req, res) => {
     console.log(req.body)
     console.log(req.body.username)
@@ -50,11 +59,11 @@ app.get("/account/api/oauth/verify", (req, res) => {
         "client_id": "aurorav3",
         "internal_client": true,
         "client_service": "fortnite",
-        "account_id": req.body.id,
+        "account_id": req.aurorav3,
         "expires_in": 28800,
         "expires_at": "9999-12-02T01:12:01.100Z",
         "auth_method": "exchange_code",
-        "display_name": req.body.username,
+        "display_name": req.aurorav3,
         "app": "fortnite",
         "in_app_id": "aurorav3",
         "device_id": "aurorav3"
@@ -97,7 +106,7 @@ app.post("/account/api/oauth/token", async (req, res, next) => {
         displayName = req.body.exchange_code;
         accountId = req.body.exchange_code
     }
-
+    console.log(displayName)
     res.json({
         access_token: crypto.randomBytes(16).toString("hex"),
         expires_in: 28800,
