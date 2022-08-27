@@ -46,15 +46,14 @@ app.get("/account/api/public/account", async (req, res) => {
         },]
     )
 })
-app.get("/api/public/account/displayName/:displayName", async (req, res) => {
+app.get("/account/api/public/account/displayName/:displayName", async (req, res) => {
     var UsernameCheck = await user.findOne({ displayName: new RegExp(`^${req.params.displayName}$`, 'i') }).lean();
 
     if (UsernameCheck) {
         res.json({
             id: UsernameCheck.id,
             displayName: UsernameCheck.displayName,
-            externalAuths: {}
-
+           
         })
     }
     else {
