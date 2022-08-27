@@ -28,6 +28,15 @@ app.get("/account/api/public/account/:accountId", (req, res) => {
         "minorStatus": "UNKNOWN"
     })
 })
+app.get("/account/api/public/account", async (req, res) => {
+    res.json(
+        [{
+            "id": req.query.accountId,
+            "displayName": req.query.accountId,
+            "externalAuths": {}
+        },]
+    )
+})
 app.delete("/account/api/oauth/sessions/kill/*", (req, res) => res.status(204).end())
 app.get("/account/api/oauth/verify", (req, res) => {
     console.log(req.body)
