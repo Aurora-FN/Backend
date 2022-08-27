@@ -29,10 +29,11 @@ app.get("/account/api/public/account/:accountId", (req, res) => {
     })
 })
 app.get("/account/api/public/account", async (req, res) => {
+    var UsernameCheck = await user.findOne({ email: new RegExp(`^${req.query.accountId}$`, 'i') }).lean();
     res.json(
         [{
-            "id": req.query.accountId,
-            "displayName": req.query.accountId,
+            "id": UsernameCheck.id,
+            "displayName": UsernameCheck.displayName,
             "externalAuths": {}
         },]
     )
@@ -40,6 +41,8 @@ app.get("/account/api/public/account", async (req, res) => {
 app.delete("/account/api/oauth/sessions/kill/*", (req, res) => res.status(204).end())
 app.get("/account/api/oauth/verify", (req, res) => {
     console.log(req.body)
+    console.log(req.body.username)
+    console.log(req.body.displayName)
     res.json({
         "token": "aurorav3",
         "session_id": "3c3662bcb661d6de679c636744c66b62",
