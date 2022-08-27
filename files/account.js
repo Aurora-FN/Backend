@@ -38,7 +38,7 @@ app.get("/account/api/oauth/verify", (req, res) => {
         "client_id": "aurorav3",
         "internal_client": true,
         "client_service": "fortnite",
-        "account_id": "aurorav3",
+        "account_id": req.body.id,
         "expires_in": 28800,
         "expires_at": "9999-12-02T01:12:01.100Z",
         "auth_method": "exchange_code",

@@ -96,6 +96,10 @@ const data101 = mongooes.Schema({
         type: String,
         default: ""
     },
+    profilerevision: {
+        type: Number,
+        default: 1
+    },
     loadingscreen: {
         type: String,
         default: ""

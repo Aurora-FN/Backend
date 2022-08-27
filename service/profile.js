@@ -7,9 +7,9 @@ module.exports = {
 		try {
             var Athena = await account.findOne({ id: accountId }).lean().catch(e => next(e))
 			var AthenaData = {
-				"profileRevision": account.profilerevision,
+				"profileRevision": Athena.profilerevision,
 				"profileId": profileId,
-				"profileChangesBaseRevision": account.profilerevision,
+				"profileChangesBaseRevision": Athena.profilerevision,
 				"profileChanges": [
 					{
 						"changeType": "fullProfileUpdate",
@@ -33,7 +33,7 @@ module.exports = {
 					}
 				],
 				"serverTime": new Date().toISOString(),
-				"profileCommandRevision": account.profilerevision,
+				"profileCommandRevision": Athena.profilerevision,
 				"responseVersion": 1
 			}
 
