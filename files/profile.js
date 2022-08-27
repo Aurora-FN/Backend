@@ -11,7 +11,7 @@ app.all("/fortnite/api/game/v2/profile/:accountId/*/:command", async (req, res) 
     const profile = require("../service/profile")
 
     try {
-        if(command == "QueryProfile" && profileID == "athena"){
+        if(command == "QueryProfile" && profileID == "athena" || "common_core" || "common_public"){
             const athenaData = await profile.grabUserAccount(accountId, profileID)
 
             res.json(athenaData)

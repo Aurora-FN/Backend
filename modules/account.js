@@ -17,7 +17,7 @@ const data101 = mongooes.Schema({
         type: Number,
         default: 100
     },
-		stars: {
+	stars: {
         type: Number,
         default: 69
     },
@@ -99,6 +99,10 @@ const data101 = mongooes.Schema({
     profilerevision: {
         type: Number,
         default: 1
+    },
+    vbucks: {
+        type: Number,
+        default: 2130
     },
     loadingscreen: {
         type: String,

@@ -2,6 +2,7 @@ const user = require("../modules/user")
 const account = require("../modules/account")
 
 const AthenaTemp = require("./athena")
+const CommonCoreAltData = require("./commoncore")
 module.exports = {
 	async grabUserAccount(accountId, profileId) {
 		try {
@@ -37,9 +38,17 @@ module.exports = {
 				"responseVersion": 1
 			}
 
-            AthenaData['profileChanges'][0]['profile']['items'] = await AthenaTemp.grabItems(accountId) // this better be epic
-            AthenaData['profileChanges'][0]['profile']['stats']['attributes'] = await AthenaTemp.attributes(accountId)
-            return AthenaData;
+			if(profileId == "athena"){
+				AthenaData['profileChanges'][0]['profile']['items'] = await AthenaTemp.grabItems(accountId) // this better be epic
+				AthenaData['profileChanges'][0]['profile']['stats']['attributes'] = await AthenaTemp.attributes(accountId)
+				return AthenaData;
+			}
+			else if (profileId == "common_core" || "common_public") {
+				AthenaData['profileChanges'][0]['profile']['items'] = await CommonCoreAltData.grabItems(accountId)
+				AthenaData['profileChanges'][0]['profile']['stats']['attributes'] = await CommonCoreAltData.attributes(accountId)
+				return AthenaData;
+			}
+			return AthenaData;
         }catch (err) {
             console.log(err)
         }
