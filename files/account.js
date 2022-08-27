@@ -46,8 +46,27 @@ app.get("/account/api/public/account", async (req, res) => {
         },]
     )
 })
+app.get("/api/public/account/displayName/:displayName", async (req, res) => {
+    var UsernameCheck = await user.findOne({ displayName: new RegExp(`^${req.params.displayName}$`, 'i') }).lean();
+
+    if (UsernameCheck) {
+        res.json({
+            id: UsernameCheck.id,
+            displayName: UsernameCheck.displayName,
+            externalAuths: {}
+
+        })
+    }
+    else {
+        return res.json(
+            "errors.com.epicgames.account.account_not_found", 18007,
+            `Sorry, we couldn't find an account for ${req.params.displayName}`,
+            "com.epicgames.account.public", "prod"
+        )
+    }
+})
 app.delete("/account/api/oauth/sessions/kill/*", (req, res) => res.status(204).end())
-app.get("/api/public/account/:accountId/externalAuths", (req, res) => res.json({}))
+app.get("/account/api/public/account/:accountId/externalAuths", (req, res) => res.json({}))
 app.get("/account/api/oauth/verify", (req, res) => {
     console.log(req.body)
     console.log(req.body.username)
@@ -77,19 +96,19 @@ app.post("/account/api/oauth/token", async (req, res, next) => {
 
     if (grantType == "password") {
         try {
-                //console.log(req.body.password)
-                var UsernameCheck = await user.findOne({ email: new RegExp(`^${req.body.username}$`, 'i') }).lean();
-        
-                if(bcrypt.compareSync(req.body.password, UsernameCheck.password)){
-                    displayName = UsernameCheck.displayName
-                    accountId = UsernameCheck.id
-                }else{
-                    return res.status(400).json(
-                        "errors.com.epicgames.common.oauth.invalid_client", 1011,
-                        "It appears that your Authorization header may be invalid or not present, please verify that you are sending the correct headers.",
-                        "com.epicgames.account.public", "prod", []
-                    )
-                }
+            //console.log(req.body.password)
+            var UsernameCheck = await user.findOne({ email: new RegExp(`^${req.body.username}$`, 'i') }).lean();
+
+            if (bcrypt.compareSync(req.body.password, UsernameCheck.password)) {
+                displayName = UsernameCheck.displayName
+                accountId = UsernameCheck.id
+            } else {
+                return res.status(400).json(
+                    "errors.com.epicgames.common.oauth.invalid_client", 1011,
+                    "It appears that your Authorization header may be invalid or not present, please verify that you are sending the correct headers.",
+                    "com.epicgames.account.public", "prod", []
+                )
+            }
         } catch (err) {
             console.log("OAUTH ERROR: " + err);
             return res.status(400).json({
@@ -122,10 +141,10 @@ app.post("/account/api/oauth/token", async (req, res, next) => {
         device_id: "5dcab5dbe86a7344b061ba57cdb33c4f"
     });
 })
-app.all("/account/api/oauth/exchange", (req,res) => {
+app.all("/account/api/oauth/exchange", (req, res) => {
     res.json({})
 })
-app.get('/account/*', function(req, res){
+app.get('/account/*', function (req, res) {
     res.status(404).json({
         "errorCode": "errors.com.epicgames.page.not_found",
         "message": "That Url Isnt On Our Api"
