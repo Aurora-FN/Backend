@@ -29,7 +29,7 @@ app.get("/account/api/public/account/:accountId", (req, res) => {
     })
 })
 app.get("/account/api/public/account", async (req, res) => {
-    var UsernameCheck = await user.findOne({ email: new RegExp(`^${req.query.accountId}$`, 'i') }).lean();
+    var UsernameCheck = await user.findOne({ id: new RegExp(`^${req.query.accountId}$`, 'i') }).lean();
     res.json(
         [{
             "id": UsernameCheck.id,
