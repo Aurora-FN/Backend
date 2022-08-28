@@ -26,6 +26,9 @@ const schema = new mongoose.Schema({
         type: String,
         default: "public"
     },
+    createdData: {
+        type: Date,
+    },
 })
 
 module.exports = mongoose.model("friends", schema)
