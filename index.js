@@ -14,8 +14,8 @@ mongoose.connect(`mongodb://uu4u3l4dltg3snxuhl1j:ymNww20Vkp9bSBajQyLq@n1-c2-mong
 }).catch((err) => {
     console.log(`🚫 mongoose Err: ${err}`)
 })
-
 app.listen(PORT, () => console.log(`Server is online with port: ${PORT}`))
+require("./xmpp/index")
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -34,5 +34,3 @@ fs.readdir(`./files`, (err, folder) => {
         }
     })
 })
-
-
