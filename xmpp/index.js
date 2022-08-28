@@ -1,12 +1,12 @@
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: process.env.xmppPort || 80 });
+const wss = new WebSocket.Server({ port: 80 },() => console.log("✅ Xmpp"));
 
 wss.on("error", (err) => {
     console.log("🚫 Xmpp");
+    console.log(err)
 })
 
 wss.on("connection", ws => {
-    console.log("✅ Xmpp")
     ws.on("close", async (xmpp) => {
         console.log("🚫 Xmpp Connection Disconected")
     })
