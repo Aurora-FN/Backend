@@ -5,7 +5,7 @@ const user = require("../modules/user")
 const friends = require("../modules/friends")
 
 app.get("/friends/api/public/friends/:accountId", async (req, res) => {
-    var Account = await friends.findOne({ id: new RegExp(`^${req.params.accountId}$`, 'i') }).lean();
+    var Account = await friends.findOne({ id: req.params.accountId }).lean();
     console.log(Account)
     const displayName = []
     if (Account) {
@@ -17,7 +17,7 @@ app.get("/friends/api/public/friends/:accountId", async (req, res) => {
         } else {
             FriendsIG.forEach(function (meme) {
                 console.log(meme)
-                displayName.push({ "accountId": meme.displayName, "groups": [], "mutual": 0, "alias": "", "note": "", "favorite": false, "created": new Date().toISOString() })
+                displayName.push({ "accountId": meme.accountId, "groups": [], "mutual": 0, "alias": "", "note": "", "favorite": false, "created": new Date().toISOString() })
 
             })
             return res.json(displayName)
@@ -29,7 +29,7 @@ app.get("/friends/api/public/friends/:accountId", async (req, res) => {
 })
 
 app.get("/friends/api/v1/:accountId/summary", async (req, res) => {
-    var Account = await friends.findOne({ id: new RegExp(`^${req.params.accountId}$`, 'i') }).lean();
+    var Account = await friends.findOne({ id: req.params.accountId}).lean();
     const displayName = []
     if (Account) {
         var FriendsIG = Account.accepted
@@ -52,26 +52,26 @@ app.get("/friends/api/v1/:accountId/summary", async (req, res) => {
         //   displayName.push({ "accountId": meme.displayName, "groups": [], "mutual": 0, "alias": "", "note": "", "favorite": false, "created": new Date().toISOString() })
         // })
         res.json({
-            friends: Account.accepted.map(x => {
+            friends: Account.accepted.map(meme => {
                 return {
-                    accountId: x.accountId,
+                    accountId: meme.accountId,
                     groups: [],
                     mutual: 0,
                     alias: "",
                     note: "",
                     favorite: false,
-                    created: x.createdAt
+                    created: meme.createdAt
                 }
             }),
-            incoming: Account.incoming.map(x => {
+            incoming: Account.incoming.map(meme => {
                 return {
-                    accountId: x.accountId,
+                    accountId: meme.accountId,
                     favorite: false
                 }
             }),
-            outgoing: Account.outgoing.map(x => {
+            outgoing: Account.outgoing.map(meme => {
                 return {
-                    accountId: x.accountId,
+                    accountId: meme.accountId,
                     favorite: false
                 }
             }),
@@ -96,7 +96,7 @@ app.get("/friends/api/v1/:accountId/summary", async (req, res) => {
     }
 })
 app.all("/friends/api/v1/:accountId/outgoing", async (req, res) => {
-    var Account = await friends.findOne({ id: new RegExp(`^${req.params.accountId}$`, 'i') }).lean();
+    var Account = await friends.findOne({ id: req.params.accountId }).lean();
 
     if (Account) {
         return res.json(Account.outgoing.map(friends => {
@@ -117,7 +117,7 @@ app.all("/friends/api/v1/:accountId/outgoing", async (req, res) => {
     }
 })
 app.all("/friends/api/v1/:accountId/incoming", async (req, res) => {
-    var Account = await friends.findOne({ id: new RegExp(`^${req.params.accountId}$`, 'i') }).lean();
+    var Account = await friends.findOne({ id: req.params.accountId }).lean();
 
     if (Account) {
         return res.json(Account.incoming.map(friends => {
@@ -172,7 +172,7 @@ app.get("/friends/api/v1/:accountId/friends", async (req, res) => {
             })*/
         res.json(Account.accepted.map(friends => {
             return {
-                accountId: friends.id,
+                accountId: friends.accountId,
                 groups: [],
                 mutual: 0,
                 alias: "",
