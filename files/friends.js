@@ -164,11 +164,13 @@ app.all("/friends/api/public/friends/:accountId/:friendId", async (req, res) => 
             }
             var CurrentFriends = Account.outgoing;
             CurrentFriends.push({ accountId: Account.id, groups: [], mutual: 0, alias: "", note: "", favorite: false, created: Account.createdAt })
-            await Account.updateOne({ id: req.params.accountId }, { outgoing: CurrentFriends })
+            await Account.updateOne({ id: req.params.accountId }, { $set: { outgoing: CurrentFriends } })
 
             var NewFriends = Friends.incoming;
             NewFriends.push({ accountId: Friends.id, groups: [], mutual: 0, alias: "", note: "", favorite: false, created: Friends.createdAt })
-            await Friends.updateOne({ id: req.params.accountId }, { outgoing: NewFriends })
+            await Friends.updateOne({ id: req.params.accountId }, { $set: { incoming: NewFriends } })
+
+            res.status(200)
         }
     } else {
         res.json("errors.com.epicgames.account.account_not_found", 18007,
