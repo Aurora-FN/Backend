@@ -6,7 +6,7 @@ const friends = require("../modules/friends")
 
 app.get("/friends/api/public/friends/:accountId", async (req, res) => {
     var Account = await friends.findOne({ id: req.params.accountId }).lean();
-    console.log(Account)
+   // console.log(Account)
     const displayName = []
     if (Account) {
         var FriendsIG = Account.accepted
@@ -15,12 +15,17 @@ app.get("/friends/api/public/friends/:accountId", async (req, res) => {
             displayName.push({ "accountId": "mrgotnofriends", "groups": [], "mutual": 0, "alias": "", "note": "", "favorite": false, "created": new Date().toISOString() })
             return res.json(displayName)
         } else {
-            FriendsIG.forEach(function (meme) {
-                console.log(meme)
-                displayName.push({ "accountId": meme.accountId, "groups": [], "mutual": 0, "alias": "", "note": "", "favorite": false, "created": new Date().toISOString() })
-
-            })
-            return res.json(displayName)
+            res.json(Account.accepted.map(x => {
+                return {
+                    accountId: x.accountId,
+                    groups: [],
+                    mutual: 0,
+                    alias: "",
+                    note: "",
+                    favorite: false,
+                    created: x.createdAt
+                }
+            }))
         }
     } else {
         displayName.push({ "accountId": "mrgotnofriends", "groups": [], "mutual": 0, "alias": "", "note": "", "favorite": false, "created": new Date().toISOString() })
