@@ -39,21 +39,6 @@ app.get("/friends/api/v1/:accountId/summary", async (req, res) => {
         var FriendsIncoming = Account.incoming
         var FriendsOutgoing = Account.outgoing
         console.log(FriendsIG)
-        // if (FriendsIG.length === 0 && FriendsIncoming.length === 0) {
-        /*  res.json({
-              "friends": [],
-              "incoming": [{ "accountId": "mrgotnofriends", "groups": [], "mutual": 0, "alias": "", "note": "", "favorite": false, "created": new Date().toISOString() }],
-              "outgoing": [],
-              "suggested": [],
-              "blocklist": [],
-              "settings": {
-                  "acceptInvites": Account.acceptInvites || "private"
-              }
-          })*/
-        //} else {
-        //  FriendsIG.forEach(function (meme) {
-        //   displayName.push({ "accountId": meme.displayName, "groups": [], "mutual": 0, "alias": "", "note": "", "favorite": false, "created": new Date().toISOString() })
-        // })
         res.json({
             friends: Account.accepted.map(meme => {
                 return {
@@ -146,31 +131,6 @@ app.get("/friends/api/v1/:accountId/friends", async (req, res) => {
         var FriendsIncoming = Account.incoming
         var FriendsOutgoing = Account.outgoing
         console.log(FriendsIG)
-        //  if (FriendsIG.length === 0 && FriendsIncoming.length === 0) {
-        //    res.json({
-        //        "friends": [],
-        // //         "incoming": [{ "accountId": "mrgotnofriends", "groups": [], "mutual": 0, "alias": "", "note": "", "favorite": false, "created": new Date().toISOString() }],
-        //            "outgoing": [],
-        //            "suggested": [],
-        //             "blocklist": [],
-        //             "settings": {
-        //                 "acceptInvites": Account.acceptInvites || "private"
-        //              }
-        //          })
-        //      } else {
-        /*    FriendsIG.forEach(function (meme) {
-                displayName.push({ "accountId": meme.displayName, "groups": [], "mutual": 0, "alias": "", "note": "", "favorite": false, "created": new Date().toISOString() })
-            })
-            res.json({
-                "friends": displayName,
-                "incoming": [],
-                "outgoing": [],
-                "suggested": [],
-                "blocklist": [],
-                "settings": {
-                    "acceptInvites": Account.acceptInvites || "private"
-                }
-            })*/
         res.json(Account.accepted.map(friends => {
             return {
                 accountId: friends.accountId,
