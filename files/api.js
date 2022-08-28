@@ -17,15 +17,29 @@ app.get("/fortnite/api/cloudstorage/system", (req, res) => {
             "uploaded": "9999-9999-9999",
             "storageType": "S3",
             "doNotCache": false
+        },
+        {
+            "uniqueFilename": "DefaultGame.ini",
+            "filename": "DefaultGame.ini",
+            "hash": "603E6907398C7E74E25C0AE8EC3A03FFAC7C9BB4",
+            "hash256": "973124FFC4A03E66D6A4458E587D5D6146F71FC57F359C8D516E0B12A50AB0D9",
+            "length": fs.readFileSync("./cloudstorage/DefaultGame.ini").length,
+            "contentType": "text/plain",
+            "uploaded": "9999-9999-9999",
+            "storageType": "S3",
+            "doNotCache": false
         }
     ]).status(200)
 })
 app.get("/fortnite/api/cloudstorage/system/config", (req, res) => {
     res.setHeader('content-type', 'application/json').json([]).status(200);
 })
-app.put("/fortnite/api/cloudstorage/user/:accountId/:filename", (req, res) => {
-    res.status(204).send()
-})
+app.get("/api/cloudstorage/user/:accountId",  (req, res) => res.json([]))
+
+app.get("/api/cloudstorage/user/:accountId/:filename",  (req, res) => res.status(204).send())
+
+app.put("/api/cloudstorage/user/:accountId/:filename", (req, res) => res.status(204).send())
+
 app.get("/fortnite/api/cloudstorage/system/:file", (req, res) => {
     const file = req.params.file;
     try {
