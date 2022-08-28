@@ -40,7 +40,7 @@ app.get("/fortnite/api/cloudstorage/user/:accountId/:filename",  (req, res) => r
 
 app.put("/fortnite/api/cloudstorage/user/:accountId/:filename", (req, res) => res.status(204).send())
 
-app.get("/fortnite/fortnite/api/cloudstorage/system/:file", (req, res) => {
+app.get("/fortnite/api/cloudstorage/system/:file", (req, res) => {
     const file = req.params.file;
     try {
         res.sendFile(path.join(__dirname, `../cloudstorage/${file}`));
