@@ -4,29 +4,28 @@ const app = express.Router();
 const fs = require("fs")
 
 const account = require("../modules/account")
-const athena = require("../json/athena.json")
 
 app.all("/fortnite/api/game/v2/profile/:accountId/client/SetCosmeticLockerSlot", async (req, res) => {
     var category = req.body.category;
     var ItemToSlot = req.body.itemToSlot;
-    var AccountTemp = await athena.findOne({ id: req.params.accountId }).lean().catch(error => next(e))
-    await athena.updateOne({ id: req.params.accountId }, { [`profilerevision`]: AccountTemp + 1 })
+    var AccountTemp = await account.findOne({ id: req.params.accountId }).lean().catch(error => next(e))
+    await account.updateOne({ id: req.params.accountId }, { [`profilerevision`]: AccountTemp + 1 })
     if (category == "ItemWrap" || category == "Dance") {
         console.log(category)
         if (ItemToSlot == "") {
-            await athena.updateOne({ id: req.params.accountId }, { [`${category.toString().toLowerCase()}`]: `` })
+            await account.updateOne({ id: req.params.accountId }, { [`${category.toString().toLowerCase()}`]: `` })
         } else {
-            await athena.updateOne({ id: req.params.accountId }, { [`${category.toString().toLowerCase()}.${req.body.slotIndex}`]: `${req.body.itemToSlot.split(":")[0]}:${req.body.itemToSlot.split(":")[1]}` })
+            await account.updateOne({ id: req.params.accountId }, { [`${category.toString().toLowerCase()}.${req.body.slotIndex}`]: `${req.body.itemToSlot.split(":")[0]}:${req.body.itemToSlot.split(":")[1]}` })
         }
     } else {
         if (ItemToSlot == "") {
-            await athena.updateOne({ id: req.params.accountId }, { [`${category.toString().toLowerCase()}`]: `` })
+            await account.updateOne({ id: req.params.accountId }, { [`${category.toString().toLowerCase()}`]: `` })
         } else {
-            await athena.updateOne({ id: req.params.accountId }, { [`${category.toString().toLowerCase()}`]: `${ItemToSlot.split(":")[0]}:${ItemToSlot.split(":")[1].toLowerCase()}` })
+            await account.updateOne({ id: req.params.accountId }, { [`${category.toString().toLowerCase()}`]: `${ItemToSlot.split(":")[0]}:${ItemToSlot.split(":")[1].toLowerCase()}` })
         }
     }
     var rvn = req.query.rvn;
-    var AccountNew = await athena.findOne({ id: req.params.accountId }).lean().catch(error => next(e))
+    var AccountNew = await account.findOne({ id: req.params.accountId }).lean().catch(error => next(e))
     console.log(rvn)
     res.json({
         "profileId": "athena",
@@ -46,24 +45,24 @@ app.all("/fortnite/api/game/v2/profile/:accountId/client/SetCosmeticLockerSlot",
 app.all("/fortnite/api/game/v2/profile/:accountId/client/EquipBattleRoyaleCustomization", async (req, res) => {
     var category = req.body.slotName;
     var rvn = req.query.rvn;
-    var AccountTemp = await athena.findOne({ id: req.params.accountId }).lean().catch(error => next(e))
+    var AccountTemp = await account.findOne({ id: req.params.accountId }).lean().catch(error => next(e))
     var ItemToSlot = req.body.itemToSlot;
-    await athena.updateOne({ id: req.params.accountId }, { [`profilerevision`]: AccountTemp.profilerevision + 1 })
+    await account.updateOne({ id: req.params.accountId }, { [`profilerevision`]: AccountTemp.profilerevision + 1 })
     if (category == "ItemWrap" || category == "Dance") {
         console.log(category)
         if (ItemToSlot == "") {
-            await athena.updateOne({ id: req.params.accountId }, { [`${category.toString().toLowerCase()}`]: `` })
+            await account.updateOne({ id: req.params.accountId }, { [`${category.toString().toLowerCase()}`]: `` })
         } else {
-            await athena.updateOne({ id: req.params.accountId }, { [`${category.toString().toLowerCase()}.${req.body.indexWithinSlot}`]: `${ItemToSlot.split(":")[0]}:${ItemToSlot.split(":")[1]}` })
+            await account.updateOne({ id: req.params.accountId }, { [`${category.toString().toLowerCase()}.${req.body.indexWithinSlot}`]: `${ItemToSlot.split(":")[0]}:${ItemToSlot.split(":")[1]}` })
         }
     } else {
         if (ItemToSlot == "") {
-            await athena.updateOne({ id: req.params.accountId }, { [`${category.toString().toLowerCase()}`]: `` })
+            await account.updateOne({ id: req.params.accountId }, { [`${category.toString().toLowerCase()}`]: `` })
         } else {
-            await athena.updateOne({ id: req.params.accountId }, { [`${category.toString().toLowerCase()}`]: `${ItemToSlot.split(":")[0]}:${ItemToSlot.split(":")[1].toLowerCase()}` })
+            await account.updateOne({ id: req.params.accountId }, { [`${category.toString().toLowerCase()}`]: `${ItemToSlot.split(":")[0]}:${ItemToSlot.split(":")[1].toLowerCase()}` })
         }
     }
-    var AccountNew = await athena.findOne({ id: req.params.accountId }).lean().catch(error => next(e))
+    var AccountNew = await account.findOne({ id: req.params.accountId }).lean().catch(error => next(e))
     var rvn = req.query.rvn;
     console.log(rvn)
     res.json({
@@ -75,7 +74,7 @@ app.all("/fortnite/api/game/v2/profile/:accountId/client/EquipBattleRoyaleCustom
             "name": `favorite_${category.toLowerCase()}`,
             "value": req.body.itemToSlot
         }],
-        "profileCommandRevision": TESTBCSOOOOCOOL.profilerevision,
+        "profileCommandRevision": AccountNew.profilerevision,
         "serverTime": new Date(),
         "responseVersion": 2
     });
