@@ -75,6 +75,24 @@ app.get("/account/api/public/account/displayName/:displayName", async (req, res)
         )
     }
 })
+app.get("/account/api/public/account/email/:email", async (req, res) => {
+    var UsernameCheck = await user.findOne({ email: req.params.email, caseSensitive: false}).lean();
+
+    if (UsernameCheck) {
+        res.json({
+            id: UsernameCheck.id,
+            displayName: UsernameCheck.displayName,
+           
+        })
+    }
+    else {
+        return res.json(
+            "errors.com.epicgames.account.account_not_found", 18007,
+            `Sorry, we couldn't find an account for ${req.params.email}`,
+            "com.epicgames.account.public", "prod"
+        )
+    }
+})
 app.delete("/account/api/oauth/sessions/kill/*", (req, res) => res.status(204).end())
 app.get("/account/api/public/account/:accountId/externalAuths", (req, res) => res.json({}))
 app.get("/account/api/oauth/verify", (req, res) => {
