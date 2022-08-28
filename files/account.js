@@ -58,7 +58,7 @@ app.get("/account/api/public/account", async (req, res) => {
     }
 })
 app.get("/account/api/public/account/displayName/:displayName", async (req, res) => {
-    var UsernameCheck = await user.findOne({ displayName: new RegExp(`^${req.params.displayName}$`, 'i') }).lean();
+    var UsernameCheck = await user.findOne({ displayName: req.params.displayName, caseSensitive: false}).lean();
 
     if (UsernameCheck) {
         res.json({
@@ -107,7 +107,7 @@ app.post("/account/api/oauth/token", async (req, res, next) => {
     if (grantType == "password") {
         try {
             //console.log(req.body.password)
-            var UsernameCheck = await user.findOne({ email: new RegExp(`^${req.body.username}$`, 'i') }).lean();
+            var UsernameCheck = await user.findOne({ email: req.body.username, caseSensitive: true }).lean();
 
             if (bcrypt.compareSync(req.body.password, UsernameCheck.password)) {
                 displayName = UsernameCheck.displayName
