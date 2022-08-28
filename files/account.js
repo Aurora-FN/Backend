@@ -94,6 +94,7 @@ app.get("/account/api/public/account/email/:email", async (req, res) => {
     }
 })
 app.delete("/account/api/oauth/sessions/kill/*", (req, res) => res.status(204).end())
+app.delete("/account/api/oauth/sessions/kill", (req, res) => res.status(204).end())
 app.get("/account/api/public/account/:accountId/externalAuths", (req, res) => res.json({}))
 app.get("/account/api/oauth/verify", (req, res) => {
     console.log(req.body)
