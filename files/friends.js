@@ -108,11 +108,10 @@ app.all("/friends/api/v1/:accountId/outgoing", async (req, res) => {
             return {
                 accountId: friends.accountId,
                 groups: [],
-                mutual: 0,
                 alias: "",
                 note: "",
                 favorite: false,
-                created: friends.createdAt || "9999-99-99"
+                created: friends.createdAt
             }
         }))
     } else {
@@ -129,11 +128,10 @@ app.all("/friends/api/v1/:accountId/incoming", async (req, res) => {
             return {
                 accountId: friends.accountId,
                 groups: [],
-                mutual: 0,
                 alias: "",
                 note: "",
                 favorite: false,
-                created: friends.createdAt || "9999-99-99"
+                created: friends.createdAt
             }
         }))
     } else {
@@ -203,7 +201,9 @@ app.get("/friends/api/v1/:accountId/friends", async (req, res) => {
 
 
 app.get("/friends/api/v1/:accountId/settings", async (req, res) => {
-    res.json({})
+    res.json({
+        acceptInvites: "public"
+    })
 })
 
 app.get("/friends/api/v1/:accountId/blocklist", async (req, res) => {
@@ -214,10 +214,8 @@ app.get("/friends/api/public/list/fortnite/:accountId/recentPlayers", async (req
     res.json([])
 })
 
-app.get("/friends/api/public/blocklist/:accountId", async (req, res) => {
-    res.json({
-        "blockedUsers": [] // need to had real blocked users here!
-    })
+app.get("/friends/api/v1/:accountId/recent/Fortnite", (req, res) => {
+    res.json([])
 })
 
 app.all("/friends/api/public/friends/:accountId/:friendId", async (req, res) => {
