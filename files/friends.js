@@ -18,10 +18,8 @@ app.get("/friends/api/public/friends/:accountId", async (req, res) => {
             res.json(Account.accepted.map(x => {
                 return {
                     accountId: x.accountId,
-                    groups: [],
-                    mutual: 0,
-                    alias: "",
-                    note: "",
+                    status: "ACCEPTED",
+                    direction: "OUTBOUND",
                     favorite: false,
                     created: x.createdAt
                 }
