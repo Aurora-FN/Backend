@@ -149,14 +149,15 @@ app.all("/friends/api/public/friends/:accountId/:friendId", async (req, res) => 
         var Friends = await friends.findOne({ id: req.params.friendId }).lean();
         console.log(Friends)
         if (Friends) {
-            if (Account.accepted.find(x => x.accountId == req.params.friendId) != undefined) {
+            console.log(Account.accepted)
+            if (Account.accepted.includes(req.params.friendId) != undefined) {
                 return res.status(409).json(
                     "errors.com.epicgames.friends.friend_request_already_sent", 14014,
-                    `Friendship between ${req.params.accountId} and ${req.params.friendId} already exists.`,
+                    `friend request between ${req.params.accountId} and ${req.params.friendId} already exists.`,
                     "friends", "prod", [req.params.friendId]
                 )
             }
-            if (Account.outgoing.find(x => x.accountId == req.params.friendId) != undefined) {
+            if (Account.outgoing.includes(req.params.friendId) != undefined) {
                 return res.status(409).json(
                     "errors.com.epicgames.friends.friend_request_already_sent", 14014,
                     `friend request has already been sent to ${req.params.friendId}`,
@@ -171,14 +172,14 @@ app.all("/friends/api/public/friends/:accountId/:friendId", async (req, res) => 
             NewFriends.push({ accountId: Friends.id, groups: [], mutual: 0, alias: "", note: "", favorite: false, created: Friends.createdAt })
             await friends.updateOne({ id: req.params.friendId }, { $set: { outgoing: NewFriends } })
 
-            res.status(200)
+            res.status(201)
             res.json("errors.com.epicgames.account.request_sent", 18007,
-            `Friend Request Has Been Send To ${Friends.displayName}`,
-            "friends", "prod")
-        }else{
+                `Friend Request Has Been Send To ${Friends.displayName}`,
+                "friends", "prod")
+        } else {
             res.json("errors.com.epicgames.account.account_not_found", 18007,
-            `Sorry, we couldn't find an account for ${req.params.friendId}`,
-            "friends", "prod")
+                `Sorry, we couldn't find an account for ${req.params.friendId}`,
+                "friends", "prod")
         }
     } else {
         res.json("errors.com.epicgames.account.account_not_found", 18007,
