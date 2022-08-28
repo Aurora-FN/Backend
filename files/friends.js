@@ -64,7 +64,7 @@ app.get("/friends/api/v1/:accountId/summary", async (req, res) => {
         }
     } else {
         res.json({
-            "friends": [{"accountId": "mrgotnofriends", "groups": [], "mutual": 0, "alias": "", "note": "", "favorite": false, "created": new Date().toISOString()}],
+            "friends": [{ "accountId": "mrgotnofriends", "groups": [], "mutual": 0, "alias": "", "note": "", "favorite": false, "created": new Date().toISOString() }],
             "incoming": [],
             "outgoing": [],
             "suggested": [],
@@ -111,7 +111,7 @@ app.get("/friends/api/v1/:accountId/friends", async (req, res) => {
         }
     } else {
         res.json({
-            "friends": [{"accountId": "mrgotnofriends", "groups": [], "mutual": 0, "alias": "", "note": "", "favorite": false, "created": new Date().toISOString()}],
+            "friends": [{ "accountId": "mrgotnofriends", "groups": [], "mutual": 0, "alias": "", "note": "", "favorite": false, "created": new Date().toISOString() }],
             "incoming": [],
             "outgoing": [],
             "suggested": [],
@@ -142,4 +142,38 @@ app.get("/friends/api/public/blocklist/:accountId", async (req, res) => {
     })
 })
 
+app.all("/friends/api/public/friends/:accountId/:friendId", async (req, res) => {
+    var Account = await friends.findOne({ id: req.params.accountId }).lean();
+
+    if (Account) {
+        var Friends = await friends.findOne({ id: req.params.friendId }).lean();
+        if (Friends) {
+            if (Account.accepted.find(x => x.id == req.params.friendId) != undefined) {
+                return res.status(409).json(
+                    "errors.com.epicgames.friends.friend_request_already_sent", 14014,
+                    `Friendship between ${req.params.accountId} and ${req.params.friendId} already exists.`,
+                    "friends", "prod", [req.params.friendId]
+                )
+            }
+            if (Account.outgoing.find(x => x.id == req.params.friendId) != undefined) {
+                return res.status(409).json(
+                    "errors.com.epicgames.friends.friend_request_already_sent", 14014,
+                    `friend request has already been sent to ${req.params.friendId}`,
+                    "friends", "prod", [req.params.friendId]
+                )
+            }
+            var CurrentFriends = Account.outgoing;
+            CurrentFriends.push({ accountId: Account.id, groups: [], mutual: 0, alias: "", note: "", favorite: false, created: Account.createdAt })
+            await Account.updateOne({ id: req.params.accountId }, { outgoing: CurrentFriends })
+
+            var NewFriends = Friends.incoming;
+            NewFriends.push({ accountId: Friends.id, groups: [], mutual: 0, alias: "", note: "", favorite: false, created: Friends.createdAt })
+            await Friends.updateOne({ id: req.params.accountId }, { outgoing: NewFriends })
+        }
+    } else {
+        res.json("errors.com.epicgames.account.account_not_found", 18007,
+            `Sorry, we couldn't find an account for ${req.params.accountId}`,
+            "friends", "prod")
+    }
+})
 module.exports = app
