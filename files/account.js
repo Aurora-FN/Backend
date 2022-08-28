@@ -37,14 +37,25 @@ app.get("/account/api/public/account/:accountId", async (req, res) => {
     })
 })
 app.get("/account/api/public/account", async (req, res) => {
-    var UsernameCheck = await user.findOne({ id: new RegExp(`^${req.query.accountId}$`, 'i') }).lean();
-    res.json(
-        [{
-            "id": UsernameCheck.id,
-            "displayName": UsernameCheck.displayName,
-            "externalAuths": {}
-        },]
-    )
+    var UsernameCheck = await user.findOne({ id: req.query.accountId }).lean();
+    console.log(UsernameCheck)
+    if(UsernameCheck){
+        res.json(
+            [{
+                "id": UsernameCheck.id,
+                "displayName": UsernameCheck.displayName,
+                "externalAuths": {}
+            },]
+        )
+    }else{
+        res.json(
+            [{
+                "id": "none",
+                "displayName": "nono",
+                "externalAuths": {}
+            },]
+        )
+    }
 })
 app.get("/account/api/public/account/displayName/:displayName", async (req, res) => {
     var UsernameCheck = await user.findOne({ displayName: new RegExp(`^${req.params.displayName}$`, 'i') }).lean();
