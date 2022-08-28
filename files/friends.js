@@ -222,33 +222,34 @@ app.all("/friends/api/public/friends/:accountId/:friendId", async (req, res) => 
         var Friends = await friends.findOne({ id: req.params.friendId }).lean();
         console.log(Friends)
         if (Friends) {
-            console.log(Account.incoming)
-            const incoming = Account.incoming
-            const accepted = Account.accepted
-            console.log(incoming.includes(req.params.friendId))
-            console.log(accepted.includes(req.params.friendId))
-            if (Account.accepted.find(x => x.accountId == req.params.friendId)) {
+            if (Account.accepted.find(x => x.accountId == req.params.friendId) != undefined) {
                 return res.status(409).json(
                     "errors.com.epicgames.friends.friend_request_accepted", 14014,
                     `friend request between ${req.params.accountId} and ${req.params.friendId} already exists.`,
                     "friends", "prod", [req.params.friendId]
                 )
             }
-            else if (Account.incoming.find(x => x.accountId == req.params.friendId)) {
+            else if (Account.outgoing.find(x => x.accountId == req.params.friendId) != undefined) {
                 return res.status(409).json(
                     "errors.com.epicgames.friends.friend_request_already_sent", 14014,
                     `friend request has already been sent to ${req.params.friendId}`,
                     "friends", "prod", [req.params.friendId]
                 )
-            }else{
-                var CurrentFriends = Account.incoming;
-                CurrentFriends.push({ accountId: Friends.id, groups: [], mutual: 0, alias: "", note: "", favorite: false, created: Friends.createdAt })
-                await friends.updateOne({ id: req.params.accountId }, { $set: { incoming: CurrentFriends } })
-    
-                var NewFriends = Friends.outgoing;
-                NewFriends.push({ accountId: Account.id, groups: [], mutual: 0, alias: "", note: "", favorite: false, created: Account.createdAt })
-                await friends.updateOne({ id: req.params.friendId }, { $set: { outgoing: NewFriends } })
-    
+            }
+            else if (Account.incoming.find(x => x.accountId == req.params.friendId) != undefined) {
+                await friends.updateOne({ id: req.params.accountId }, { $pull: { incoming: { accountId: req.params.friendId } }, $push: { accepted: { accountId: req.params.friendId, createdAt: new Date() } } })
+                await friends.updateOne({ id: req.params.friendId }, { $pull: { outgoing: { accountId: req.params.accountId } }, $push: { accepted: { accountId: req.params.accountId, createdAt: new Date() } } })
+
+                return res.status(409).json(
+                    "errors.com.epicgames.friends.friendAccepted_NoXmppAtmSadICry", 14014,
+                    `friend request been accepted`,
+                    "friends", "prod", [req.params.friendId]
+                )
+
+            } else {
+                await friends.updateOne({ id: req.params.friendId }, { $push: { incoming: { accountId: req.params.accountId, createdAt: new Date() } } })
+                await friends.updateOne({ id: req.params.accountId }, { $push: { outgoing: { accountId: req.params.friendId, createdAt: new Date() } } })
+
                 return res.status(201).json(
                     "errors.com.epicgames.account.request_sent", 18007,
                     `Friend Request Has Been Send To ${Friends.displayName}`,
