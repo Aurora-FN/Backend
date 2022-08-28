@@ -76,7 +76,7 @@ app.get("/friends/api/v1/:accountId/summary", async (req, res) => {
     }
 })
 app.get("/friends/api/v1/:accountId/friends", async (req, res) => {
-    var Account = await friends.findOne({ id: new RegExp(`^${req.params.accountId}$`, 'i') }).lean();
+    var Account = await friends.findOne({ id: req.params.accountId, caseSensitive: true }).lean();
     const displayName = []
     if (Account) {
         var FriendsIG = Account.accepted
@@ -164,11 +164,11 @@ app.all("/friends/api/public/friends/:accountId/:friendId", async (req, res) => 
             }
             var CurrentFriends = Account.outgoing;
             CurrentFriends.push({ accountId: Account.id, groups: [], mutual: 0, alias: "", note: "", favorite: false, created: Account.createdAt })
-            await Account.updateOne({ id: req.params.accountId }, { $set: { outgoing: CurrentFriends } })
+            await friends.updateOne({ id: req.params.accountId }, { $set: { outgoing: CurrentFriends } })
 
             var NewFriends = Friends.incoming;
             NewFriends.push({ accountId: Friends.id, groups: [], mutual: 0, alias: "", note: "", favorite: false, created: Friends.createdAt })
-            await Friends.updateOne({ id: req.params.accountId }, { $set: { incoming: NewFriends } })
+            await friends.updateOne({ id: req.params.friendId }, { $set: { incoming: NewFriends } })
 
             res.status(200)
         }
