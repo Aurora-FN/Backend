@@ -21,7 +21,11 @@ const schema = new mongoose.Schema({
     accepted: {
         type: Array,
         default: []
-    }
+    },
+    acceptInvites: {
+        type: String,
+        default: "public"
+    },
 })
 
 module.exports = mongoose.model("friends", schema)
