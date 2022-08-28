@@ -1,5 +1,5 @@
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 80 },() => console.log("✅ Xmpp"));
+const wss = new WebSocket.Server({ port: 214 },() => console.log("✅ Xmpp"));
 
 wss.on("error", (err) => {
     console.log("🚫 Xmpp");
