@@ -3,11 +3,12 @@ const mongoose = require("mongoose")
 const bodyParser = require("body-parser");
 const fs = require("fs")
 const app = express();
-//const http = require('http')
-//const server = http.createServer(app)
-//global.server = server
-
-require("./xmpp")
+const http = require('http')
+const server = http.createServer(app)
+global.server = server
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+require("./xmpp/index")
 
 mongoose.connect(`mongodb://uu4u3l4dltg3snxuhl1j:ymNww20Vkp9bSBajQyLq@n1-c2-mongodb-clevercloud-customers.services.clever-cloud.com:27017,n2-c2-mongodb-clevercloud-customers.services.clever-cloud.com:27017/bnri8fck5vzfyrf?replicaSet=rs0`, {
     useNewUrlParser: true,
@@ -34,8 +35,6 @@ fs.readdir(`./files`, (err, folder) => {
     })
 })
 
-app.listen(process.env.PORT || 1234, () => {
+server.listen(process.env.port || 1234, () => {
     console.log(`Server is online with port: ${process.env.PORT || 1234}`)
 })
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));

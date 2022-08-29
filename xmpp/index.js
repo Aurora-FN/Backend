@@ -1,11 +1,11 @@
 const WebSocket = require('ws');
 
-const wss = new WebSocket.Server({ port: 214 });
+const wss = new WebSocket.Server({ server });
 
 global.Clients = [];
 
 wss.on('listening', ws => {
-    console.log(`XMPP listening with port: 214`)
+    console.log(`XMPP listening`)
 })
 
 wss.on("connection", ws => {
