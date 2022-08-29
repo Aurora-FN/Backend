@@ -1,4 +1,6 @@
-# This Backend will be public on shutdown!
+# This Backend will be public on shutdown!<br>
+
+Created by zinx <3
 
 # Issues:
 Xmpp not worky <br>
