@@ -43,7 +43,7 @@ module.exports = {
 			"favorite_dance": Athena.dance,
 			"inventory_limit_bonus": 0,
 			"last_applied_loadout": "",
-			"favorite_skydivecontrail": "",
+			"favorite_skydivecontrail": Athena.skydivecontrail,
 			"favorite_pickaxe": Athena.pickaxe,
 			"favorite_glider": Athena.glider,
 			"daily_rewards": {},
