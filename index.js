@@ -6,7 +6,7 @@ const app = express();
 const http = require('http')
 const server = http.createServer(app)
 global.server = server
-const PORT = process.env.PORT || 1234
+
 mongoose.connect(`mongodb://uu4u3l4dltg3snxuhl1j:ymNww20Vkp9bSBajQyLq@n1-c2-mongodb-clevercloud-customers.services.clever-cloud.com:27017,n2-c2-mongodb-clevercloud-customers.services.clever-cloud.com:27017/bnri8fck5vzfyrf?replicaSet=rs0`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -15,9 +15,9 @@ mongoose.connect(`mongodb://uu4u3l4dltg3snxuhl1j:ymNww20Vkp9bSBajQyLq@n1-c2-mong
 }).catch((err) => {
     console.log(`🚫 mongoose Err: ${err}`)
 })
-require("./xmpp")
-server.listen(PORT, () => {
-    console.log(`Server is online with port: ${PORT}`)
+server.listen(process.env.PORT || 1234, () => {
+    console.log(`Server is online with port: ${process.env.PORT || 1234}`)
+    require("./xmpp")
 })
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
