@@ -63,6 +63,22 @@ app.get(["/content/api/pages/fortnite-game", "/content/app/pages/"], (req, res) 
                         sortingPriority: 0,
                         id: `AuroraNews`,
                         spotlight: false
+                    },
+                    {
+                        entryType: "Text",
+                        image: config.image2,
+                        tileImage: config.tileImage2,
+                        hidden: false,
+                        videoMute: false,
+                        tabTitleOverride: "Aurora",
+                        _type: "CommonUI Simple Message MOTD",
+                        title: config.title2,
+                        body: config.body2,
+                        videoLoop: false,
+                        videoStreamingEnabled: false,
+                        sortingPriority: 0,
+                        id: `AuroraNews_2`,
+                        spotlight: false
                     }
                 ]
             }

@@ -1,5 +1,5 @@
 {
-    "alert": "There are currently some issue with the xmpp atm",
+    "alert": "Server Issue: Xmpp",
     "alertmessage": "Please check the info at aurorafn.ml or discord.gg/bdvaDqkbK4",
     "title": "Aurora",
     "body": "Welcome to Aurora",
