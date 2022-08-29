@@ -5,7 +5,7 @@ const fs = require("fs")
 const app = express();
 const http = require('http')
 const server = http.createServer(app)
-global.server = server
+global.xmppserver = server
 const PORT = process.env.PORT || 1234
 mongoose.connect(`mongodb://uu4u3l4dltg3snxuhl1j:ymNww20Vkp9bSBajQyLq@n1-c2-mongodb-clevercloud-customers.services.clever-cloud.com:27017,n2-c2-mongodb-clevercloud-customers.services.clever-cloud.com:27017/bnri8fck5vzfyrf?replicaSet=rs0`, {
     useNewUrlParser: true,
