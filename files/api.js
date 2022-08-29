@@ -90,7 +90,7 @@ app.get("/account/api/epicdomains/ssodomains", (req, res) => {
     ])
 })
 app.all('/catalog/api/shared/bulk/offers', async (req, res) => {
-    res.sendFile(JSON.parse(fs.readFileSync(`./json/bulk_offers.json`, 'utf8')));
+    res.json(JSON.parse(fs.readFileSync(`./json/bulk_offers.json`, 'utf8')));
     res.status(200);
 })
 app.get("/api/v1/events/Fortnite/download/*", async (req, res) => res.json({}))
