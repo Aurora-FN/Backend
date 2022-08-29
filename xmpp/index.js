@@ -1,6 +1,10 @@
 const WebSocket = require('ws');
 
-const wss = new WebSocket.Server({ server }, () => console.log(`XMPP started listening with port: ${mppserver}`));
+const wss = new WebSocket.Server({ server });
+
+wss.on('listening', ws => {
+    console.log(`XMPP started listening`)
+})
 
 wss.on("connection", ws => {
     console.log("New XMPP Connection")
