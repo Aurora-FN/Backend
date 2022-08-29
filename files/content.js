@@ -67,6 +67,26 @@ app.get(["/content/api/pages/fortnite-game", "/content/app/pages/"], (req, res) 
                 ]
             }
         },
+        emergencynotice: {
+            news: {
+                platform_messages: [],
+                _type: 'Battle Royale News',
+                messages: [
+                    {
+                        hidden: false,
+                        _type: 'CommonUI Simple Message Base',
+                        subgame: 'br',
+                        title: config.alert,
+                        body: config.alertmessage,
+                        spotlight: true
+                    }
+                ]
+            },
+            _title: 'emergencynotice',
+            _activeDate: new Date().toISOString(),
+            lastModified: new Date().toISOString(),
+            _locale: 'en-US'
+        },
         emergencynoticev2: {
             news: {
                 platform_messages: [],
