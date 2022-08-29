@@ -65,6 +65,7 @@ app.get("/fortnite/api/v2/versioncheck/*", (req, res) => {
         "type": "NO_UPDATE"
     })
 })
+app.all("/datarouter/api/v1/public/data", (req, res) => res.status(204).end())
 app.post("/fortnite/api/game/v2/grant_access/*", (req, res) => {
     res.json({}).status(204).end();
 })
@@ -87,6 +88,10 @@ app.get("/account/api/epicdomains/ssodomains", (req, res) => {
         "fortnite.com",
         "epicgames.com"
     ])
+})
+app.all('/catalog/api/shared/bulk/offers', async (req, res) => {
+    res.sendFile(JSON.parse(fs.readFileSync(`./json/bulk_offers.json`, 'utf8')));
+    res.status(200);
 })
 app.get("/api/v1/events/Fortnite/download/*", async (req, res) => res.json({}))
 app.get("/fortnite/api/game/v2/world/info", (req, res) => res.json({}))
