@@ -1,26 +1,30 @@
+'use strict';
+
+const express = require('express')
+const app = express()
 const { Server } = require('ws');
+const http = require('http')
+const WSServerPort = process.env.PORT || 214;
 
-const http = require("http");
-const webSocketServerPort = +process.env.PORT || 214;
+var server = http.createServer(app);
+server.listen(WSServerPort);
 
-const httpServer = http.createServer();
-
-httpServer.listen(webSocketServerPort,function(){
-    console.log("Server is listening on port " + webSocketServerPort);
-});
-
-const wss = new Server({ port: webSocketServerPort },() => console.log("✅ Xmpp"));
-
+console.log('Help;(', WSServerPort);
+const wss = new Server({server: server});
 global.Clients = [];
 
-wss.on("connection", ws => {
-    console.log("eh")
-    ws.on("close", async (xmpp) => {
-        console.log("🚫 Xmpp Connection Disconected")
-    })
-})
+wss.on('connection', (ws) => {
+    console.log('Client connected');
+    ws.on('close', () => console.log('Client disconnected'));
+  });
 
 wss.on("error", (err) => {
     console.log("🚫 Xmpp");
     console.log(err)
 })
+
+setInterval(() => {
+    wss.clients.forEach((client) => {
+      client.send(new Date().toTimeString());
+    });
+  }, 1000);
