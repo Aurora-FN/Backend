@@ -10,5 +10,5 @@ module.exports = {
 	"DailyTab1Skin1": "CID_028_Athena_Commando_F",
 	"DailyTab1Price1": "890",
 	"DailyTab1Skin2": "CID_028_Athena_Commando_F",
-  "refundable": true
+	"refundable": true
 }

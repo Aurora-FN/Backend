@@ -3,8 +3,94 @@ const account = require("../modules/account")
 const athena = require("../json/athena.json")
 
 module.exports = {
+
 	async grabItems(accountId) {
-		return athena
+		var Athena = await account.findOne({ id: accountId }).lean().catch(e => next(e))
+		var alr = {
+            "sandbox_loadout": {
+                "templateId": "CosmeticLocker:cosmeticlocker_athena",
+                "attributes": {
+                    "locker_slots_data": {
+                        "slots": {
+                            "MusicPack": {
+                                "items": [
+                                    Athena.musicpack
+                                ]
+                            },
+                            "Character": {
+                                "items": [
+                                    Athena.character
+                                ],
+                                "activeVariants": [
+                                  null
+                                ]
+                              },
+                            "Backpack": {
+                                "items": [
+                                    Athena.backpack
+                                ],
+                                "activeVariants": [
+                                    null
+                                ]
+                            },
+                            "SkyDiveContrail": {
+                                "items": [
+                                    Athena.skydivecontrail
+                                ],
+                                "activeVariants": [
+                                    null
+                                ]
+                            },
+                            "Dance": {
+                                "items": Athena.dance
+                            },
+                            "LoadingScreen": {
+                                "items": [
+                                    Athena.loadingscreen
+                                ]
+                            },
+                            "Pickaxe": {
+                                "items": [
+                                    Athena.pickaxe
+                                ],
+                                "activeVariants": [
+                                    null
+                                ]
+                            },
+                            "Glider": {
+                                "items": [
+                                    Athena.glider
+                                ],
+                                "activeVariants": [
+                                    null
+                                ]
+                            },
+                            "ItemWrap": {
+                                "items": Athena.itemwrap,
+                                "activeVariants": [
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null
+                                ]
+                            }
+                        }
+                    },
+                    "use_count": 0,
+                    "banner_icon_template": "StandardBanner1",
+                    "banner_color_template": "DefaultColor1",
+                    "locker_name": "shield",
+                    "item_seen": false,
+                    "favorite": false
+                },
+                "quantity": 1
+            },
+        }
+		return Object.assign({},alr, athena)
 	},
 
 	async attributes(accountId) {
