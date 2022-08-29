@@ -1,5 +1,15 @@
 const { Server } = require('ws');
-const wss = new Server({ port: 214 },() => console.log("✅ Xmpp"));
+
+const http = require("http");
+const webSocketServerPort = +process.env.PORT || 214;
+
+const httpServer = http.createServer();
+
+httpServer.listen(webSocketServerPort,function(){
+    console.log("Server is listening on port " + webSocketServerPort);
+});
+
+const wss = new Server({ port: webSocketServerPort },() => console.log("✅ Xmpp"));
 
 global.Clients = [];
 
