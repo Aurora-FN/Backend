@@ -35,6 +35,6 @@ fs.readdir(`./files`, (err, folder) => {
     })
 })
 
-server.listen(process.env.port || 1234, () => {
+server.listen(process.env.PORT || 1234, () => {
     console.log(`Server is online with port: ${process.env.PORT || 1234}`)
 })
