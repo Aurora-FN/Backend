@@ -7,8 +7,8 @@ const schema = new mongoose.Schema({
         required: true,
     },
     discord: {
-       type: String,
-       required: true,
+        type: String,
+        required: true,
     },
     incoming: {
         type: Array,

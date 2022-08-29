@@ -34,9 +34,9 @@ app.get("/fortnite/api/cloudstorage/system", (req, res) => {
 app.get("/fortnite/api/cloudstorage/system/config", (req, res) => {
     res.setHeader('content-type', 'application/json').json([]).status(200);
 })
-app.get("/fortnite/api/cloudstorage/user/:accountId",  (req, res) => res.json([]))
+app.get("/fortnite/api/cloudstorage/user/:accountId", (req, res) => res.json([]))
 
-app.get("/fortnite/api/cloudstorage/user/:accountId/:filename",  (req, res) => res.status(204).send())
+app.get("/fortnite/api/cloudstorage/user/:accountId/:filename", (req, res) => res.status(204).send())
 
 app.put("/fortnite/api/cloudstorage/user/:accountId/:filename", (req, res) => res.status(204).send())
 

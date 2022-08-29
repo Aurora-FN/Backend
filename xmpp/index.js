@@ -1,30 +1,15 @@
-'use strict';
+const WebSocket = require('ws');
 
-const express = require('express')
-const app = express()
-const { Server } = require('ws');
-const http = require('http')
-const WSServerPort = process.env.PORT || 214;
+const wss = new WebSocket.Server({ server }, () => console.log(`XMPP started listening with port: ${mppserver}`));
 
-var server = http.createServer(app);
-server.listen(WSServerPort);
-
-console.log('Help;(', WSServerPort);
-const wss = new Server({server: server});
-global.Clients = [];
-
-wss.on('connection', (ws) => {
-    console.log('Client connected');
-    ws.on('close', () => console.log('Client disconnected'));
-  });
-
-wss.on("error", (err) => {
-    console.log("🚫 Xmpp");
-    console.log(err)
+wss.on("connection", ws => {
+    console.log("New XMPP Connection")
+    ws.on("close", async (lol) => {
+        console.log("Lost XMPP Connection")
+    })
 })
 
-setInterval(() => {
-    wss.clients.forEach((client) => {
-      client.send(new Date().toTimeString());
-    });
-  }, 1000);
+wss.on("error", (err) => {
+    console.log("Xmpp failed")
+    console.log(err)
+})

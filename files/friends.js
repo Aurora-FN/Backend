@@ -6,7 +6,7 @@ const friends = require("../modules/friends")
 
 app.get("/friends/api/public/friends/:accountId", async (req, res) => {
     var Account = await friends.findOne({ id: req.params.accountId }).lean();
-   // console.log(Account)
+    // console.log(Account)
     const displayName = []
     if (Account) {
         var FriendsIG = Account.accepted
@@ -32,7 +32,7 @@ app.get("/friends/api/public/friends/:accountId", async (req, res) => {
 })
 
 app.get("/friends/api/v1/:accountId/summary", async (req, res) => {
-    var Account = await friends.findOne({ id: req.params.accountId}).lean();
+    var Account = await friends.findOne({ id: req.params.accountId }).lean();
     const displayName = []
     if (Account) {
         var FriendsIG = Account.accepted

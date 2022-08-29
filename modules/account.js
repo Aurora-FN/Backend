@@ -6,8 +6,8 @@ const data101 = mongooes.Schema({
         required: true,
     },
     discord: {
-       type: String,
-       required: true,
+        type: String,
+        required: true,
     },
     createdAt: {
         type: Date,
@@ -17,7 +17,7 @@ const data101 = mongooes.Schema({
         type: Number,
         default: 100
     },
-	stars: {
+    stars: {
         type: Number,
         default: 69
     },

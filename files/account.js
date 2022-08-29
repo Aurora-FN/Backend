@@ -39,7 +39,7 @@ app.get("/account/api/public/account/:accountId", async (req, res) => {
 app.get("/account/api/public/account", async (req, res) => {
     var UsernameCheck = await user.findOne({ id: req.query.accountId }).lean();
     console.log(UsernameCheck)
-    if(UsernameCheck){
+    if (UsernameCheck) {
         res.json(
             [{
                 "id": UsernameCheck.id,
@@ -47,7 +47,7 @@ app.get("/account/api/public/account", async (req, res) => {
                 "externalAuths": {}
             },]
         )
-    }else{
+    } else {
         res.json(
             [{
                 "id": "none",
@@ -58,13 +58,13 @@ app.get("/account/api/public/account", async (req, res) => {
     }
 })
 app.get("/account/api/public/account/displayName/:displayName", async (req, res) => {
-    var UsernameCheck = await user.findOne({ displayName: req.params.displayName, caseSensitive: false}).lean();
+    var UsernameCheck = await user.findOne({ displayName: req.params.displayName, caseSensitive: false }).lean();
 
     if (UsernameCheck) {
         res.json({
             id: UsernameCheck.id,
             displayName: UsernameCheck.displayName,
-           
+
         })
     }
     else {
@@ -76,13 +76,13 @@ app.get("/account/api/public/account/displayName/:displayName", async (req, res)
     }
 })
 app.get("/account/api/public/account/email/:email", async (req, res) => {
-    var UsernameCheck = await user.findOne({ email: req.params.email, caseSensitive: false}).lean();
+    var UsernameCheck = await user.findOne({ email: req.params.email, caseSensitive: false }).lean();
 
     if (UsernameCheck) {
         res.json({
             id: UsernameCheck.id,
             displayName: UsernameCheck.displayName,
-           
+
         })
     }
     else {

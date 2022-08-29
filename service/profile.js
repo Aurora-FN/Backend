@@ -6,7 +6,7 @@ const CommonCoreAltData = require("./commoncore")
 module.exports = {
 	async grabUserAccount(accountId, profileId) {
 		try {
-            var Athena = await account.findOne({ id: accountId }).lean().catch(e => next(e))
+			var Athena = await account.findOne({ id: accountId }).lean().catch(e => next(e))
 			var AthenaData = {
 				"profileRevision": Athena.profilerevision,
 				"profileId": profileId,
@@ -38,7 +38,7 @@ module.exports = {
 				"responseVersion": 1
 			}
 
-			if(profileId == "athena"){
+			if (profileId == "athena") {
 				AthenaData['profileChanges'][0]['profile']['items'] = await AthenaTemp.grabItems(accountId) // this better be epic
 				AthenaData['profileChanges'][0]['profile']['stats']['attributes'] = await AthenaTemp.attributes(accountId)
 				return AthenaData;
@@ -49,8 +49,8 @@ module.exports = {
 				return AthenaData;
 			}
 			return AthenaData;
-        }catch (err) {
-            console.log(err)
-        }
-    }
+		} catch (err) {
+			console.log(err)
+		}
+	}
 }
