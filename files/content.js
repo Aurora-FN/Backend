@@ -13,6 +13,38 @@ app.get(["/content/api/pages/fortnite-game", "/content/app/pages/"], (req, res) 
         _activeDate: "2017-08-30T03:20:48.050Z",
         lastModified: new Date(),
         _locale: "en-US",
+        battleroyalenews: {
+            news: {
+                platform_messages: [],
+                _type: 'Battle Royale News',
+                messages: [
+                    {
+                        image: config.image,
+                        hidden: false,
+                        _type: 'CommonUI Simple Message Base',
+                        adspace: config.adspace,
+                        title: config.title,
+                        body: config.body,
+                        spotlight: false
+                    },
+                    {
+                        image: config.image2,
+                        hidden: false,
+                        _type: 'CommonUI Simple Message Base',
+                        adspace: config.adspace2,
+                        title: config.title2,
+                        body: config.body2,
+                        spotlight: false
+                    }
+                ]
+            },
+            _title: 'battleroyalenews',
+            header: '',
+            style: 'SpecialEvent',
+            _activeDate: new Date().toISOString(),
+            lastModified: new Date().toISOString(),
+            _locale: 'en-US'
+        },
         battleroyalenewsv2: {
             news: {
                 motds: [

@@ -1,8 +1,14 @@
 {
     "alert": "There are currently some issue with the xmpp atm",
     "alertmessage": "Please check the info at aurorafn.ml or discord.gg/bdvaDqkbK4",
-    "title": "aurora",
+    "title": "Aurora",
     "body": "Welcome to Aurora",
+    "adspace": "Welcome!",
     "image": "https://cdn.discordapp.com/attachments/1013468495377338428/1013938194938593350/unknown.png",
-    "tileImage": "https://cdn.discordapp.com/attachments/1013468495377338428/1013938194938593350/unknown.png"
+    "tileImage": "https://cdn.discordapp.com/attachments/1013468495377338428/1013938194938593350/unknown.png",
+    "title2": "Multiplayer",
+    "body2": "Watch out on our discord when we are hosting!",
+    "adspace2": "eh!",
+    "image2": "https://cdn.discordapp.com/attachments/1013468495377338428/1013938194938593350/unknown.png",
+    "tileImage2": "https://cdn.discordapp.com/attachments/1013468495377338428/1013938194938593350/unknown.png"
 }
