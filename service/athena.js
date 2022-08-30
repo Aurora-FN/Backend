@@ -83,7 +83,7 @@ module.exports = {
                     "use_count": 0,
                     "banner_icon_template": "StandardBanner1",
                     "banner_color_template": "DefaultColor1",
-                    "locker_name": "shield",
+                    "locker_name": "aurora",
                     "item_seen": false,
                     "favorite": false
                 },
