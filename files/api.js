@@ -97,5 +97,8 @@ app.get("/api/v1/events/Fortnite/download/*", async (req, res) => res.json({}))
 app.get("/fortnite/api/game/v2/world/info", (req, res) => res.json({}))
 app.get("/fortnite/api/game/v2/twitch/*", (req, res) => res.json([]))
 app.get("/eulatracking/api/shared/agreements/fn", (req, res) => res.json({}))
+app.all("/fortnite/api/matchmaking/session/findPlayer/*", (req, res) => {
+    res.json().status(200).end();
+})
 app.all("/fortnite/api/receipts/v1/account/*/receipts", (req, res) => res.json({}))
 module.exports = app
