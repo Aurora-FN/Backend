@@ -9,7 +9,7 @@ app.all("/fortnite/api/game/v2/profile/:accountId/client/SetCosmeticLockerSlot",
     var category = req.body.category;
     var ItemToSlot = req.body.itemToSlot;
     var AccountTemp = await account.findOne({ id: req.params.accountId }).lean().catch(error => next(e))
-    await account.updateOne({ id: req.params.accountId }, { [`profilerevision`]: AccountTemp + 1 })
+    await account.updateOne({ id: req.params.accountId }, { [`profilerevision`]: AccountTemp.profilerevision + 1 })
     if (category == "ItemWrap" || category == "Dance") {
         console.log(category)
         if (ItemToSlot == "") {
