@@ -216,6 +216,70 @@ app.get("/friends/api/v1/:accountId/recent/Fortnite", (req, res) => {
     res.json([])
 })
 
+app.all("/friends/api/v1/:accountId/friends/:friendId", async (req, res) => {
+    var Account = await friends.findOne({ id: req.params.accountId }).lean();
+    if (Account) {
+        var Friends = await friends.findOne({ id: req.params.friendId }).lean();
+        console.log(Friends.accepted)
+        if (Friends) {
+            if (req.method == "GET") {
+                if (Account.accepted.find(x => x.accountId == req.params.friendId) != undefined) {
+                    res.json({
+                        accountId: req.params.friendId,
+                        groups: [],
+                        mutual: 0,
+                        alias: "",
+                        note: "",
+                        favorite: false,
+                        created: Account.accepted.find(x => x.accountId == req.params.friendId).createdAt
+                    })
+                } else {
+                    return res.status(404).json(
+                        "errors.com.epicgames.friends.friendship_not_found", 14004,
+                        `Friendship between ${req.params.accountId} and ${req.params.friendId} does not exist`,
+                        "friends", "prod", [req.params.accountId, req.params.friendId]
+                    )
+                }
+            } else if (req.method == "POST") {
+                if (Account.accepted.find(x => x.accountId == req.params.friendId) != undefined) {
+                    return res.status(409).json(
+                        "errors.com.epicgames.friends.friend_request_accepted", 14014,
+                        `friend request between ${req.params.accountId} and ${req.params.friendId} already exists.`,
+                        "friends", "prod", [req.params.friendId]
+                    )
+                }
+                else if (Account.outgoing.find(x => x.accountId == req.params.friendId) != undefined) {
+                    return res.status(409).json(
+                        "errors.com.epicgames.friends.friend_request_already_sent", 14014,
+                        `friend request has already been sent to ${req.params.friendId}`,
+                        "friends", "prod", [req.params.friendId]
+                    )
+                }
+                else if (Account.incoming.find(x => x.accountId == req.params.friendId) != undefined) {
+                    await friends.updateOne({ id: req.params.accountId }, { $pull: { incoming: { accountId: req.params.friendId } }, $push: { accepted: { accountId: req.params.friendId, createdAt: new Date() } } })
+                    await friends.updateOne({ id: req.params.friendId }, { $pull: { outgoing: { accountId: req.params.accountId } }, $push: { accepted: { accountId: req.params.accountId, createdAt: new Date() } } })
+    
+                    return res.status(409).json(
+                        "errors.com.epicgames.friends.friendAccepted_NoXmppAtmSadICry", 14014,
+                        `friend request been accepted`,
+                        "friends", "prod", [req.params.friendId]
+                    )
+    
+                } else {
+                    await friends.updateOne({ id: req.params.friendId }, { $push: { incoming: { accountId: req.params.accountId, createdAt: new Date() } } })
+                    await friends.updateOne({ id: req.params.accountId }, { $push: { outgoing: { accountId: req.params.friendId, createdAt: new Date() } } })
+    
+                    return res.status(201).json(
+                        "errors.com.epicgames.account.request_sent", 18007,
+                        `Friend Request Has Been Send To ${Friends.displayName}`,
+                        "friends", "prod"
+                    )
+                }
+            }
+        }
+    }
+})
+
 app.all("/friends/api/public/friends/:accountId/:friendId", async (req, res) => {
     var Account = await friends.findOne({ id: req.params.accountId }).lean();
     console.log(Account)
