@@ -101,4 +101,7 @@ app.all("/fortnite/api/matchmaking/session/findPlayer/*", (req, res) => {
     res.json().status(200).end();
 })
 app.all("/fortnite/api/receipts/v1/account/*/receipts", (req, res) => res.json({}))
+app.all("/payment/v1/purchaseToken",  (req, res) => {
+    res.send("<body>Errors</body>")
+})
 module.exports = app
