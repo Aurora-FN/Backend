@@ -1,8 +1,11 @@
-# This Backend will be public on shutdown!
+# Aurora Backend
+
+This backend is a bit broken and buggy
+<br>
+You May Use Fork This backend and credit us! 
 
 # Issues:
-Xmpp not worky <br>
-No Content Yet <br>
+Xmpp not fully working <br>
 No Matchmaking <br>
 No Leader Board <br>
-Friend request is buggy! <br>
+Friend request is buggy!
